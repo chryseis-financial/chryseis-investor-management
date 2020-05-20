@@ -1,5 +1,6 @@
 package com.chryseis.investor.management.web.controllers;
 
+import com.chryseis.investor.management.services.ISecurityService;
 import com.chryseis.investor.management.web.api.InvestorManagementApi;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class InvestorManagementController implements InvestorManagementApi {
 
+    private ISecurityService securityService;
+
+    public InvestorManagementController(ISecurityService securityService) {
+        this.securityService = securityService;
+    }
 
     @Override
     public ResponseEntity<String> getInvestorById(String investorId) {
-        return new ResponseEntity("Hello", HttpStatus.OK);
+        String security = securityService.getSecurityDetail(investorId);
+        return new ResponseEntity(security, HttpStatus.OK);
     }
 }
